@@ -18,16 +18,21 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: YouTube, the news, politics: Can we see the divide?
+title: "YouTube, the news, politics: Can we see the divide?"
 # email: 
-description: An ADA@EPFL project.
+description: >- # this means to ignore newlines until "baseurl:"
+  An ADA@EPFL project.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
 # github_username:  jekyll
 
 # Build settings
+# theme: minima
+# theme: beautiful-jekyll-theme
 remote_theme: daattali/beautiful-jekyll@5.0.0
+plugins:
+  # - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default.
