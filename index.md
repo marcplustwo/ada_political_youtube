@@ -1,5 +1,5 @@
 ---
-title: YouTube, the news, politics: Can we see the divide?
+title: "YouTube, the news, politics: Can we see the divide?"
 layout: blog
 ---
 ### <span style="color:red">Red</span> versus <span style="color:Blue">Blue</span>.
