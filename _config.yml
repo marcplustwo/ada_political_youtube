@@ -18,10 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Political YouTube
+title: YouTube, the news, politics: Can we see the divide?
 # email: 
 description: >- # this means to ignore newlines until "baseurl:"
-  Is political YouTube polarized? Come find out in our Data Story.
   An ADA@EPFL project.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
