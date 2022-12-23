@@ -1,6 +1,6 @@
 ---
-bigimg: "https://i.imgur.com/Sw0vMrJ.png"
-title:"YouTube, the news, politics: Can we see the divide?"
+title: YouTube, the news, politics: Can we see the divide?
+layout: blog
 ---
 ### <span style="color:red">Red</span> versus <span style="color:Blue">Blue</span>.
 Differing in their ideals and philosophies, the republicans and the democrats have been at odds for over 200 years. But modern media has has surely changed the game. Specifically YouTube: the perfect platform for political soapbox and free expression to reach a large and diverse audience.
