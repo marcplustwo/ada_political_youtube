@@ -15,7 +15,7 @@ Let's begin this **explorative journey**...
 
 [3]: https://www.asc.upenn.edu/news-events/news/cable-news-networks-have-grown-more-polarized-study-finds
 
-## Finding the "Political YouTube"
+## So many channels..which ones should we investigate?"
 
 As we set out to explore the political landscape of YouTube, the first step was to identify which channels to examine. To do this, we turned to [AllSides](https://www.allsides.com/media-bias), a company that aims to provide balanced news and media analysis. They provided us with a list of American news channels, along with their respective [media bias ratings](https://www.allsides.com/media-bias/media-bias-rating-methods).
 
