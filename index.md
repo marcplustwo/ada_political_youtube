@@ -1,103 +1,215 @@
-# Can data unite people, reverse political polarisation and heal America? 
-a Data Story based on the YouNiverse dataset
+# YouTube, the news, politics: Can we see the divide?
 
-## Background ​​⌛️
-Can we identify topics that unite polarised Americans, in the hope of minimising their division? We keep hearing how the political discourse is polarised nowadays in the United States (and perhaps the rest of the anglosphere) [1]. It seems that the left and right can't agree on anything. Culprits cited for this polarisation amongst others are cable news [4] (as opposed to what is commonly thought is social media [3]). With YouNiverse, we have access to the youtube counterpart of these news channels (along with many other smaller channels) and can explore indirectly the behaviour of political viewers. 
+![](https://i.imgur.com/Sw0vMrJ.png)
 
-One aspect that is theorised to cause polarisation, is that the political information people consume is increasingly polar (biased towards one side or the other) [4]. Organisations such as AllSides are doing work to tag news channels according to the “pole” (political faction i.e. left, right) they are biased towards [5]. Using YouNiverse/youtube data as a proxy for the political preference of people (by assuming it correlates with the political news channel preference) we want to see if polarisation is true on youtube as well, whether the political channels popularity could correlate with popularity in the real world of politics (which could raise the question about a causal relationship as well) and whether there are any topics of unity that we assume could be talked about to bring unity instead.
+### <span style="color:red">Red</span> versus <span style="color:Blue">Blue</span>.
+Differing in their ideals and philosophies, the republicans and the democrats have been at odds for over 200 years. But modern media has has surely changed the game. Specifically YouTube: the perfect platform for political soapbox and free expression to reach a large and diverse audience.
 
-\[1\]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7201237/
+We took a plunge into the [YouNiverse](https://github.com/epfl-dlab/YouNiverse) dataset, comprising of metadata of **136,470** channels, **72,924,794** videos, and around **8.6 billion** comments to explore YouTube's projection of the American polital landscape. We wanted to know the answers to questions such as: How are the users distributed amongst the <span style="color:red">right wing</span>- versus <span style="color:Blue">left wing</span>-biased YouTube major news channels? Does YouTube trap users with a certain political bias in filter bubbles [1] [2] [3]? How do certain YouTube trends relate to real-world events? What main topics are discussed on the "political youtube"?
 
-\[2\]: https://arxiv.org/pdf/1908.08313.pdf
+Let's begin this **explorative journey**...
 
-\[3\]: https://www.pnas.org/doi/10.1073/pnas.2101967118#con1
+[1]: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7201237/
 
-\[4\]: Cable networks more polarized
+[2]: https://www.pnas.org/doi/10.1073/pnas.2101967118#con1
 
-\[5\]: https://www.allsides.com/media-bias
+[3]: https://www.asc.upenn.edu/news-events/news/cable-news-networks-have-grown-more-polarized-study-finds
 
-## Research Questions❓
-To what extent is YouTube politically polarised?
-How do political YouTube channels play a role in this polarisation?
-Are there any topics that unite polarised youtubers?
+## Finding the "Political YouTube"
 
-## Additional Datasets
-AllSides Media Bias Rating (https://www.allsides.com/media-bias/ratings) rates major American news outlets’ political bias.
-FiveThirtyEight polling data: Trump’s approval rating (https://projects.fivethirtyeight.com/trump-approval-ratings/)
+As we set out to explore the political landscape of YouTube, the first step was to identify which channels to examine. To do this, we turned to [AllSides](https://www.allsides.com/media-bias), a company that aims to provide balanced news and media analysis. They provided us with a list of American news channels, along with their respective [media bias ratings](https://www.allsides.com/media-bias/media-bias-rating-methods).
 
-## Methods (by question) 🧰 🪡
-### 1. To what extent is YouTube politically polarised?
-How divided are the user groups between the left or right wing channels? To obtain a holistic intuition of how the investigated channels are clustered, we will create a network graph with channels as nodes (coloured by political bias) and edge weights between nodes that are proportional to the number of shared commenters. In this way, we hope to visualise the ‘bubbles’ of channels with common political views and how they are connected.
+From this list, we were able to identify **142** YouTube channels in the YouNiverse dataset, out of a total of **877**. With this information in hand, we were ready to begin our journey through the complex and often polarizing world of political YouTube.
 
-1a: The basis of our discussions is a mapping of left- and right-leaning news outlets to their YouTube channels. We use a dataset from AllSides (Additional Dataset 1) that classifies news outlets into left- and right-leaning.
+### Alright, so what have we got here..
 
-1b: We create a graph of channels connected by users that comment on videos of both channels. This nicely visualises the connection between them and especially lends itself to see how left- and right-leaning channels are clustered. Using graph-theoretical centrality measurements (betweenness centrality, clustering, …) to identify particularly connected and isolated nodes on either side.
+Let's get a feel for the data. How many channels do we have for each bias? And how is the total view count split between them?
 
-<img src="assets/image1b.png" width="50%"/>
+<img src="assets/bars_channel_count_by_bias.png" width="30%"/>
 
-1c: By determining, for each channel, the sum of user connections between itself and another channel with a) the same political bias (on the x-axis) and b) the opposite political bias (on the y-axis) we can visualise the extent to which the political bias filter bubbles are divided.
-Example visualisation:
+![](https://i.imgur.com/4tJc2QG.png)
 
-<img src="assets/image1c.png" width="50%"/>
+<img src="assets/bars_share_of_view_count_by_bias.png" width="30%"/>
 
-1d: To map the political leanings of users we use the videos they commented under. We score each user by summing up the political leaning of each video using the following scores 1: left, 0.5: left-leaning, 0: centre, -0.5: right-leaning, -1: right. Seeing a normal distribution would indicate a moderate overall behaviour and the absence of filter bubbles. Or would there be two “bumps”?
+![](https://i.imgur.com/f2CbMBA.png)
 
-### 2. How do political YouTube channels play a role in this polarisation?
-Do certain news media metrics correlate with political poll results (e.g. approval ratings, election results, …)? We’re trying to see whether there exists correlations through time.
+It seems like our dataset includes much more <span style="color:Blue">left</span>-winged channels and consequently, a far higher share of the view counts are from <span style="color:Blue">left</span>-winged channels.
 
-2a: By using the time series dataset we compare channels’ view counts with approval data of Donald Trump during his time in office (Additional dataset 2). We group the dataset based on whether a channel has political bias towards right or left. We plotted the weekly viewing evolution during the time period. In our sample visualisation we focus on just Fox News. We would like to analyse specific moments of noticeable correlation, whether these moments relate to an important event, a statement by a politician or a influenceable person.
+Let's take a look at some of the most popular channels
+<img src="assets/bars_view_count_by_channel.png" width="30%"/>
 
-<img src="assets/image2a.png" width="50%"/>
+![](https://i.imgur.com/GjpG5hK.jpg)
 
-2b: Do negative or favourable coverage of Trump coincide with his popularity ratings? We run a roberta based sentiment analysis model on video titles (See 4b). For left and right-leaning media we aggregate video favorability weighted by the video’s view count for each week. This data, we overlay with sentiment data.
+If we want to compare data about <span style="color:red">right-</span> and <span style="color:Blue">left-</span>winged channels and viewers, then this is going to be a *problem*. Luckily, there is a solution: [propensity score matching](https://en.wikipedia.org/wiki/Propensity_score_matching)! 
+>For each channel with a <span style="color:red">right</span> bias, we find a channel on the <span style="color:Blue">left</span> that is as similar as possible in terms of: cumulative views, number of videos and creation date. Since we are only really interested in the extreme-bais cases, we discard channels that are considered center- or mixed-winged.
 
-2c: By visualising the pure effect of video title sentiment (See 4b) on view count for videos posted by both left- and right-biased channels, we can gain further insight into the connection between relevant events/topics and what YouTube recommends to users. We can do this by propensity score matching using features such as video duration, channel subscribers where the “treated groups’’ would be videos with positive sentiment (or negative sentiment) and “control groups” would be videos with neutral or negative sentiment. We would then sum the video views for each case.
-Example visualisation:
+This leaves us with **62** channels to investigate: **31** <span style="color:red">right</span>-winged and **31** <span style="color:blue">left</span>-winged.
 
-<img src="assets/image2c.png" width="50%"/>
 
-### 3. Are there any topics that unite polarised youtubers? 🧶
-Investigating video’s tags will give us an indication if certain videos’ topics are more popular on either political side or if they are represented equally.
-For the subset of videos of news outlets we extract all tags and count the number of occurrences on left- or right-leaning videos.
-To visualise we imagine the following diagram showing some of most popular tags:
+### Do people who watch videos from <span style="color:red">right</span>-winged channels also watch videos from <span style="color:blue">left</span>-winged channels (and vice-versa)?
 
-<img src="assets/image3.png" width="50%"/>
+Ideally, we would like to see exactly which users watched certain videos. Unfortunately this information isn't available. However the YouNiverse dataset does contain data about certain users commenting on certain videos. *We can thus imagine a connection between two channels when a viewer has commented under at least one video from each*. 
 
-## Organisation of work
+It sure would be nice to visualise these connections on some kind of **network diagram** in which
+- the number of connections between two channels can be shown by the thickness of their connecting edge
+- the size of the nodes are proporional to the cumulative view count of the channels
 
-Method 1-3 outlined above
 
-4 Miscellaneous data work
-4a Manual Data cleaning
-4b Sentiment analysis pipeline using a pre-trained model (https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment)
+<img src="assets/graph_channel_full.png" width="90%"/>
 
-5 Data Story
-5a technical setup/pipeline
-5b compilation and texts
+**image not showing**
 
-| Work Package | People                       |
-|--------------|------------------------------|
-| 1a           | Marc                         |
-| 1b           | Marc                         |
-| 1c           | Angelo                       |
-| 1d           | Andrei                       |
-| 2a           | Juhani                       |
-| 2b           | Juhani                       |
-| 2c           | Angelo                       |
-| 3            | Andrei                       |
-| 4a           | Marc                         |
-| 4b           | Juhani                       |
-| 5a           | Marc, Angelo                 |
-| 5b           | Andrei, Juhani, Marc, Angelo |
 
-## Timeline 📈
-Internal deadlines
-25/11/22: 4a, 4b
+Nice! As we expect, <span style="color:blue">left</span>-winged channels dominate. Also, channels with higher cumulative view counts seem to have more connections..this makes sense.
 
-02/12/22: Homework 2 Due, no project deadlines
+Now that we have an idea of what this network looks like, let's get a bit more technical with it for a deeper understanding:
 
-09/12/22: 1a, 1b, 1c, 2a, 1d
+### Node degree distrubution
 
-16/12/22: 5a, 2b, 2c, 3
+The **node degree** is the number of unique connections it has to other nodes. Let's see a histogram of this measure over the network:
 
-22/12/22: Compile results into data story > Final product
+<img src="assets/hist_node_degree.png" width="30%"/>
+
+![](https://i.imgur.com/9XiH2J2.png)
+
+It seems like we have many more channels that have many unique connections than channels who have less unique connections. The density measure of the graph is **0.89** and thus *nearly **90%** of all possible connections exist.*
+
+Let's have a look at a distribution of the *number of total connections* - or in other words, edge weights. 
+
+<img src="assets/hists_weight_distribution.png" width="50%"/>
+
+![](https://i.imgur.com/i9UldcU.png)
+
+It seems that although many channels are connected to many other channels, the number of connections between channels are often small. For example in the network graph above, the connection between "CNN" and "FOX" is much stronger than the connection between "The Economist" and the "Orlando Sentinal".
+
+Now that we know this, it feels important to see the distribtuion of edge weights **for each node**.
+
+<img src="assets/bars_edge_weights.png" width="50%"/>
+
+![](https://i.imgur.com/5qzEGp1.png)
+
+Unlike many real-world-networks, there are few weakly linked channels, a peak of channels centered roughly around the mean and few very well-connected channels.
+
+## Are viewers stuck in filter bubbles?
+
+filter bubble
+*noun*
+>"a situation in which an internet user encounters only information and opinions that conform to and reinforce their own beliefs, caused by algorithms that personalize an individual’s online experience."
+*~Oxford Languages dictionary*
+
+### Homophily
+To investigate this question, let's use the measure of **homophily**, *which describes a node's similarity to the nodes to which it is connected*.
+Specifically, we define a measure of "weighted homophily":
+$$
+\text{weighted homophily of node } i = \frac{\sum \text{connection weight to node of same bias}}{\sum\text{connection weight}}
+$$
+
+<img src="assets/bars_weighted_homophily_matched.png" width="30%"/>
+
+![](https://i.imgur.com/RUtU4t2.png)
+
+This suggests that <span style="color:red">right</span>-winged channels are more connected to other <span style="color:red">right</span>-winged channels than <span style="color:blue">left</span>-winged channels are connected to other <span style="color:blue">left</span>-winged channels! Can we say that viewers who watch <span style="color:red">right</span>-winged channels are stuck in a filter bubble? We were not quite convinced yet. Let's plot this same concept in a different way. How about for each channel, we show the number of unique connections to channels of the *same* bias versus the number of unique connections to channels of the *opposite* bias?
+
+![](https://i.imgur.com/NenXQ4M.png)
+
+Here we can see the same phenomenon. 
+
+### Let's look more closely at the comments data
+
+We have **18 million** comment authors in our dataset. The distribution of the number of comments for each of these authors is **extremely heavy tailed**.
+
+<img src="assets/authors_comments.png" width="30%"/>
+
+![](https://i.imgur.com/azdJlT4.png)
+
+What about the distribution of the number of comments over the different biases?
+
+<img src="assets/comments_by_bias.png" width="30%"/>
+
+![](https://i.imgur.com/dybo3MB.png)
+
+We want to see a distribution of the general bias of each comment author as this would give us a finer-grained insight about possible filter bubbles. In this study, we don't have access to the viewing history of individual users, but it is reasonable to assume that if a user comments on a video, they are *interested* in that video. If a user comments on a video with a certain bias, they are likely to share that same bias. 
+We assigned a **score** to each comment author based on the bias of the videos on which they commented:
+- videos with a <span style="color:blue">left</span>-winged bias were given a score of **-1**
+- videos with a <span style="color:red">right</span>-winged bias were given a score of **+1**.
+
+For example, a commenter with a score of **-400** has left **400** more comments on <span style="color:blue">left</span>-winged channels than on any other political channels. In other words, we consider this person to be <span style="color:blue">left</span>-wing biased . Similarly, a commenter with a score of 0 is considered to be unbiased.
+
+<img src="assets/authors_bias_sum_by_author.png" width="30%"/>
+
+![](https://i.imgur.com/l05Hl20.png) 
+
+The result: a clear **bimodal** distribution! Our research suggests that the "filter bubble" effect is present. The distribution of commenters appears to be influenced by two distinct groups or "personas" - "democrats" and "republicans" - with one biased towards the <span style="color:blue">left</span> and the other towards the <span style="color:red">right</span>.
+
+
+We also analyzed the commenter bias based on the **videos** on which the commenters commented, expressed as a ratio of <span style="color:blue">left</span>-wing to <span style="color:red">right</span>-wing videos. Here, each commenter was assigned a score based on this ratio: 
+- a score of 0.0 indicates that only <span style="color:blue">left</span>-wing videos were watched
+- a score of 1.0 indicates that only <span style="color:red">right</span>-wing videos were watched
+- a score of 0.5 indicates that an equal number of each were watched. 
+
+This allows us to see the direction of users' preferences, without considering the magnitude of their bias.
+
+<img src="assets/authors_bias_ratio.png" width="30%"/>
+
+![](https://i.imgur.com/KZ3ARDM.png) 
+
+The result is striking, the filter bubble effect is even more pronounced when disregarding the magnitude of commenters' biases. Consistent with our previous result, the effect is greater for commenters on the right.
+
+### So what news is hot and what news is not?
+
+We know that the news channels report, well, *news*.. but the question is: what news do they focus on and how are these topis distributed between the <span style="color:blue">left</span>-wing and <span style="color:red">right</span>-wing biases?
+
+We could think of a very useful tool to help us answer the first part of the question: [Latent Dirichelet Allocation (LDA)!](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation). After some natural language processing such as 
+1. removing stopwords and punctuation
+2. lemmatisation
+3. constructing bigrams,
+
+**the video titles** would give a good indication of the general video topic. These processed documents were then deconvoluting into a topic space of **20 topics**, with the most *meaningful* ones being handpicked out afterwards. Let's see the most common words in the selected topics:
+
+![](https://i.imgur.com/OXJvFNJ.png)
+It seems as though the news channels speak a lot about **politicians** themselves (Barack Obama and Hillary Clinton), North Korea, the stock market, Brexit and violence at schools..but *by far*, the topic with the the most heavy tailed word distribution is...
+![](https://i.imgur.com/zqp7h8l.png)
+Considering the time in which this data reflects (the beginning of YouTube until 2019), this does not seem surprising to us. Here you can see that the single word "Trump" captured over **20 %** of this topic space!
+![](https://i.imgur.com/QfnYeC5.png)
+
+Now we are in a position to answer the second part of our topic-based question, which is: how are these topis distributed between the <span style="color:blue">left</span>-wing and <span style="color:red">right</span>-wing biases?
+
+First, we used an advanced Machine-Learning model which is the [Twitter-roBERTa-base model for sentiment analysis](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment). Using this on the titles, we get a score indicating the extent to which each is talking about its topic in a positive or negative light. For some of the most prevalent words found in the topics discussed above, we calculated the **mean sentiment scores** for <span style="color:blue">left</span>-wing and <span style="color:red">right</span>-wing channels.
+<img src="assets/bars_sentiment_for_key_words.png" width="30%"/>
+
+![](https://i.imgur.com/ORrCpD4.png)
+
+Here, the green and red bars indicate **relative difference in sentiment**. It seems like when considering all the titles, <span style="color:red">right</span>-wing channels tend to show a more negative sentiment compared to <span style="color:blue">left</span>-wing channels. Interestingly, the sentiment trend for "Trump" shows greater positivity in <span style="color:red">right</span>-wing channels and the sentiment trend for "Obama" shows greater positivity in <span style="color:blue">left</span>-wing channels! This makes sense since Barack Obama is indeed part of the Democratic party, while Donald Trump is part of the Republican party.
+
+## The political YouTube landscape: how closely does it mimic reality?
+
+As we entered into the world of political YouTube, we couldn't help but wonder - how tight is its **time-correlation** to the real world of politics? Furthermore..can YouTube **influence** public opinion, or can we infer public opinion by looking at YouTube data?
+
+Considering that Donald Trump is such a hot topic, we compiled a **timeline** of video sentiment scores mentioning Donald Trump from the beginning of his time in office and compared them to the average weekly favorability of Trump based on polls (source?).
+
+![](https://i.imgur.com/IcFngx5.png)
+
+From the plot, a definite correlation between the two timeseries can be seen! They share a Pearson correlation coefficient of 0.225 with a P-value of just 0.0023. It is clear that the data from the YouTube video title sentiment lags behind the data from the polls..intuitively this suggests that the YouTube video title sentiment is more dependent on the state of the polls rather than the other way around.
+
+Running the same analysis seperately for <span style="color:red">right</span>-wing and <span style="color:blue">left</span>-wing channels reveals that <span style="color:red">right</span>-wing media had a higher correlation with a significantly smaller p-value as compared to <span style="color:blue">left</span>-wing media:
+- Pearson correlation for <span style="color:red">right</span>-wing media: 0.35, P-value = 0.000025
+- Pearson correlation for <span style="color:blue">left</span>-wing media: 0.17 P-value: 0.048
+
+Our analysis shows there is a relationship between video sentiment and favorability, but the direction and strength of this relationship can vary.
+
+## So what's the verdict?
+
+That was a lot of information from a lot of data. Let's try pick out the most **notable findings** from the data which we have explored:
+
+- Many channels have **many unique** channel connections in that they sharing common commenters on their videos with many other channels.
+- Many connections between channels are **not strong**, in that they do not share a high number of commenters.
+- Viewers who watch <span style="color:red">right</span>-wing channels are **more likely** to watch videos from the same bias than viewers who watch videos from <span style="color:blue">left</span>-wing channels channels, implying a *stronger filter bubble for <span style="color:red">right</span>-wing viewers*.
+- Hot topics among the news channels include: Donald Trump, Barack Obama, Hillary Clinton, North Korea, the stock market, Brexit and school shootings.
+- The sentiment trend for "Trump" shows greater positivity in <span style="color:red">right</span>-wing channels and the sentiment trend for "Obama" shows greater positivity in <span style="color:blue">left</span>-wing channels.
+- There is a correlation between the timelines of title sentiment scores mentioning Donald Trump from the beginning of his time in office compared to the average weekly favorability of Trump based on polls, although the title sentiment score signal lags behind.
+
+There is still so much more to explore, and we have **so** many more questions..but let us heed the words of Donald Trump:
+
+>"In the end, you're measured not by how much you undertake but by what you finally accomplish."
+
+And thus concludes this **data story**!
