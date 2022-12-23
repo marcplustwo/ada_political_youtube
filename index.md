@@ -1,6 +1,5 @@
 ---
-bigimg:![](https://i.imgur.com/Sw0vMrJ.png)
-
+bigimg: https://i.imgur.com/Sw0vMrJ.png
 ---
 
 # YouTube, the news, politics: Can we see the divide?
